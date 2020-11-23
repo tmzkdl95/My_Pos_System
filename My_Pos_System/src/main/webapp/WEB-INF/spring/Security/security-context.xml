@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:sec="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd">
+    
+    
+    <!-- 스프링 시큐리티 설정의 거의 모든 것 -->
+    <sec:http pattern="/css/**" security="none" />
+    <sec:http pattern="/img/**" security="none" />
+    <sec:http pattern="/js/**" security="none" />
+    <sec:http pattern="/uploads/**" security="none" />
+    <sec:http auto-config='true' use-expressions="true">
+       
+       <!-- 권한별 설정 -->
+       
+       <!-- 관리자 -->
+       <sec:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />      
+    
+       <!-- 모든유저 -->
+        <sec:intercept-url pattern="/testPage/testPage" access="hasRole('ROLE_USER')" />
+        <sec:intercept-url pattern="/login" access="permitAll" />
+        <sec:intercept-url pattern="/testPage/**" access="isAuthenticated()" />
+        
+        <sec:form-login login-page="/login"
+                        login-processing-url="/login"
+                        default-target-url="/"
+                        username-parameter="username" 
+                        password-parameter="password"
+                        authentication-failure-url="/login?error" 
+                        always-use-default-target='true' />
+        <sec:logout invalidate-session="true"
+                    logout-url="/logout"   
+                    logout-success-url="/login?logout" />
+        <!-- enable csrf protection -->
+        <sec:csrf/> 
+       
+        <sec:session-management>
+            <sec:concurrency-control max-sessions="1" expired-url="/login_duplicate"/>
+        </sec:session-management>
+
+    </sec:http>
+    
+    <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+    
+    <sec:authentication-manager>
+    <sec:authentication-provider>
+         <sec:jdbc-user-service data-source-ref="dataSource"
+                               users-by-username-query="SELECT user_id, user_pw FROM userinfo WHERE user_id = ?"
+                               authorities-by-username-query="SELECT user_id, user_authorities FROM userinfo WHERE user_id = ?" />                               
+        </sec:authentication-provider>
+    </sec:authentication-manager>
+</beans>
