@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace = "com.mycompany.mapper.mapper_XML">
+	<select id = "select_MgtGoodsReg" resultType="com.mycompany.vo.MgtGoodsRegVO">
+		select * from t_goods_inf 
+	</select>
+	
+	<insert id="insert_MgtGoodsReg" >
+		insert into t_goods_inf (GOODS_B_CD, 
+		                         GOODS_CD,
+		                         GOODS_NM,
+		                         GOODS_PRI,
+		                         GOODS_QTY,
+		                         REG_USER_ID
+		                         ) 
+		                  values(#{goods_b_cd},
+		                         #{goods_cd},
+		                         #{goods_nm},
+		                         #{goods_pri},
+		                         #{goods_qty},
+		                         'master'		                         
+		                         )
+	</insert>
+</mapper>
