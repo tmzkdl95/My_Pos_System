@@ -4,7 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<mappers>
-    	<mapper resource="/com/mycompany/mapper/mapper_XML/testPageMapper.xml" /> 
-    	<mapper resource="/com/mycompany/mapper/mapper_XML/memberMapper.xml" />
+	 <!--    <mapper resource="/com/mycompany/mapper/mapper_XML/*.xml" />  -->
+	    <mapper resource="/com/mycompany/mapper/mapper_XML/MgtGoodsRegMapper.xml" />
+        <mapper resource="/com/mycompany/mapper/mapper_XML/testPageMapper.xml" /> 
+    	<mapper resource="/com/mycompany/mapper/mapper_XML/memberMapper.xml" /> 
 	</mappers>
 </configuration>

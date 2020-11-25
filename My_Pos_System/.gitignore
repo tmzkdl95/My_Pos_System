@@ -1,1 +1,8 @@
 /target/
+*.svg
+*.classpath
+*.project
+*.springBeans
+*.svg
+*.less
+*.scss

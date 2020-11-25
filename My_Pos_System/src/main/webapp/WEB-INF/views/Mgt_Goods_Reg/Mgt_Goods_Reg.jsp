@@ -18,33 +18,46 @@
 		</div>
 		<div class="card-body">
 			<div class="table-responsive">
+			 
 				<p>			
 				<div class="insertData">					
 					<form action='<c:url value="/Mgt_Goods_Reg/insert_data" />' method="post" id="insert_data">
-						User_name : <input name="user_name" type="text" size="10"id="user_name">
-						content : <input name="content"type="text" size="10" id="content">
-						<!-- name은 VO에서 구분자 //id는 html내의 구분자 -->
-						<button type="submit">저장</button>
+					<div>
+					    <!-- name은 VO에서 구분자 //id는 html내의 구분자  -->
+					      상품 바코드 : <input name="goods_b_cd" type="text" size="10"id="user_name">
+						상품코드 : <input name="goods_cd"type="text" size="10" id="content">
+						상품명 : <input name="goods_nm"type="text" size="10" id="content">
+						상품가격 : <input name="goods_pri"type="text" size="10" id="content">
+						<button type="submit">저장</button>						
+				   </div>
+						
+						
 					</form>
 				</div>
 				<p>
+			
 				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 					<thead>
 						<tr>
-							<th>id</th>
-							<th>user_name</th>
-							<th>content</th>
+						
+							<th>상품코드</th>
+							<th>상품명</th>
+							<th>가격</th>
 						</tr>
 					</thead>
 
 					<tbody>
-						<c:forEach items="${testpage}" var="testpage">
+					
+						<c:forEach items="${Mgt_Goods_Reg}" var="Mgt_Goods_Reg">
 							<tr>
-								<td>${testpage.id}</td>
-								<td>${testpage.user_name}</td>
-								<td>${testpage.content}</td>
+							
+								<td>${Mgt_Goods_Reg.goods_cd}</td>
+								<td>${Mgt_Goods_Reg.goods_nm}</td>
+								<td>${Mgt_Goods_Reg.goods_pri}</td>
+						
 							</tr>
 						</c:forEach>
+							
 					</tbody>
 				</table>
 			</div>
