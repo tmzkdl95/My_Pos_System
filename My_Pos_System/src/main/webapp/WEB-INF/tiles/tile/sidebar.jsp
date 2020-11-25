@@ -30,6 +30,18 @@
             <span>차트 분석</span></a>
         </li>
         <li class="nav-item">
+          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>상품 관리</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+            <h6 class="dropdown-header">상품관리 메뉴:</h6>
+            <a class="dropdown-item" href="Mgt_Goods_Reg">상품 등록</a>
+            <a class="dropdown-item" href="Mgt_Goods_CAL">계산</a>
+            <a class="dropdown-item" href="Mgt_STK">재고관리</a>           
+          </div>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="testPage">
             <i class="fas fa-fw fa-table"></i>
             <span>테스트 페이지</span></a>

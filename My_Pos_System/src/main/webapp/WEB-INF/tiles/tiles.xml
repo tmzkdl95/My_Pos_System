@@ -13,11 +13,11 @@
 		<put-attribute name="footer" value ="/WEB-INF/tiles/tile/footer.jsp"/>
 		<put-attribute name="footer-menu" value ="/WEB-INF/tiles/tile/footer-menu.jsp"/>		
 	</definition>
-	<!-- 
+	 
 	<definition name="*/*" extends ="layout">
-		<put-attribute name="content" value ="/WEB-INF/vies/{1}/{2}.jsp"/>
+		<put-attribute name="content" value ="/WEB-INF/views/{1}/{2}.jsp"/>
 	</definition>
-	
+	<!--
 	<definition name="/" extends ="layout">
 		<put-attribute name="content" value ="/WEB-INF/vies/{1}.jsp"/>
 	</definition>
@@ -30,6 +30,7 @@
    	 </definition>
    	 
    	 <definition name="testPage/testpage" extends="layout"> 
+       <put-attribute name="content" value="/WEB-INF/views/Mgt_Goods_Reg/Mgt_Goods_Reg.jsp" />
        <put-attribute name="content" value="/WEB-INF/views/testPage/testpage.jsp" />
    	 </definition>
 	
