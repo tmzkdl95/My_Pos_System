@@ -37,8 +37,8 @@
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
             <h6 class="dropdown-header">상품관리 메뉴:</h6>
             <a class="dropdown-item" href="Mgt_Goods_Reg">상품 등록</a>
-            <a class="dropdown-item" href="Mgt_Goods_CAL">계산</a>
-            <a class="dropdown-item" href="Mgt_STK">재고관리</a>           
+            <a class="dropdown-item" href="Mgt_Goods_Cal">계산</a>
+            <a class="dropdown-item" href="Mgt_Stc">재고관리</a>           
           </div>
         </li>
         <li class="nav-item">
