@@ -1,5 +1,6 @@
 package com.mycompany.myapp.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,22 +21,26 @@ public class MgtGoodsCalController {
 	@Inject
 	private MgtGoodsCalService mgtGoodsRegService;
 	
-	//Á¢¼Ó È­¸é
+	//ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½
 	@RequestMapping(value = "/Mgt_Goods_Cal", method = RequestMethod.GET)
-	//DB Ãâ·Â µ¿ÀÛ ¸Þ¼­µå
+	//DB ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 	public String MgtGoodsCal(Model model){
 		
 		return "Mgt_Goods_Cal/Mgt_Goods_Cal";
 	}
 	
-	// DBÁ¶È¸ Ãâ·Â µ¿ÀÛ ¸Þ¼­µå
+	// DBï¿½ï¿½È¸ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 	@RequestMapping(value = "/Mgt_Goods_Cal_retrieve", method = RequestMethod.POST)	
 	public String MgtGoodsCal_retrieve(Model model,@ModelAttribute MgtGoodsCalVO MgtGoodsCalVO){
 		
-	 if(!MgtGoodsCalVO.getGoods_b_cd().isEmpty()){		
-		List<MgtGoodsCalVO> retrieve_mgtGoodscal = mgtGoodsRegService.retrieve_mgtGoodsRegAll(MgtGoodsCalVO);		
-		model.addAttribute("Mgt_Goods_Cal",retrieve_mgtGoodscal);
 		
+	 if(!MgtGoodsCalVO.getGoods_b_cd().isEmpty()){		
+		//List<MgtGoodsCalVO> retrieve_mgtGoodscal = mgtGoodsRegService.retrieve_mgtGoodsRegAll(MgtGoodsCalVO);
+		System.out.println("retrieve_mgtGoodscal : "+MgtGoodsCalVO);
+		List<String> retrieve_mgtGoodscal = mgtGoodsRegService.retrieve_mgtGoodsRegAll_str(MgtGoodsCalVO);
+		System.out.println("retrieve_mgtGoodscal : "+retrieve_mgtGoodscal);
+		model.addAttribute("Mgt_Goods_Cal",retrieve_mgtGoodscal);
+				
 		return "Mgt_Goods_Cal/Mgt_Goods_Cal";
 	 }
 	 else{
@@ -43,18 +48,26 @@ public class MgtGoodsCalController {
 	 }
 	}
 	
-	@RequestMapping(value = "/Mgt_Goods_Cal/retrieve", method = RequestMethod.GET)	
-	public String MgtGoodsCal_retrieve_get(Model model){
+	//ì¡°íšŒ
+	@RequestMapping(value = "/Mgt_Goods_Cal/retrieve", method = RequestMethod.POST)	
+	public String MgtGoodsCal_retrieve_get(Model model,@ModelAttribute MgtGoodsCalVO MgtGoodsCalVO){
 		
-		
-		return "Mgt_Goods_Cal/Mgt_Goods_Cal";
+		List<String> retrieve_mgtGoodscal = mgtGoodsRegService.retrieve_mgtGoodsRegAll_str(MgtGoodsCalVO);
+		model.addAttribute("Mgt_Goods_Cal",retrieve_mgtGoodscal);
+		System.out.println("retrieve_mgtGoodscal to String : "+retrieve_mgtGoodscal.toString());
+		return "returnAjax";
 	}
 	
+	@RequestMapping(value = "/returnAjax", method = RequestMethod.GET)	
+	public String MgtGoodsCal_returnAjax(Model model){
+		
+		return "returnAjax";
+	}
 	/*
 	@RequestMapping(value = "/Mgt_Goods_Reg/insert_data", method = RequestMethod.POST)
 	public String insert_data(@ModelAttribute MgtGoodsRegVO MgtGoodsRegVO){
 		
-		System.out.print(MgtGoodsRegVO.toString()); //view¿¡¼­ Á¦´ë·Î °ª ´øÁ®ÁÖ´ÂÁö È®ÀÎÇÏ±â	
+		System.out.print(MgtGoodsRegVO.toString()); //viewï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï±ï¿½	
 		mgtGoodsRegService.insert_data(MgtGoodsRegVO);
 		return "redirect:/Mgt_Goods_Reg";
 	}

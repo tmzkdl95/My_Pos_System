@@ -5,7 +5,7 @@
   
 <mapper namespace = "com.mycompany.mapper.mapper_XML">
 	<select id = "select_MgtGoodsCal" resultType="com.mycompany.vo.MgtGoodsCalVO">
-		select * 
+		select GOODS_NM,GOODS_PRI 
 		from t_goods_inf 
 		where GOODS_B_CD = #{goods_b_cd}	  
 	</select>
