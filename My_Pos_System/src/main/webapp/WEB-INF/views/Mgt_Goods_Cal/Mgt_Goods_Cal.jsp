@@ -16,7 +16,7 @@ function pginit(){
 
 
 function exec_DataAdd(result){
-	
+	var sum = 0;
 	//1.result의 "[]",공백 제거 및 "=" -> "," 치환 작업  
     var saleInfo = result.replace("[","").replace("]","").replace(/ /g,"").replace(/=/g,",");
     //2."," 기준으로 배열 생성
@@ -34,17 +34,87 @@ function exec_DataAdd(result){
         $listTbody.empty(); //초기화
         
         var len = saleInfo_all_arr.length;       
-        var i = 0;     
+        var i = 0;
+        var tbNum = 1;
         while(i<len){
-        	console.log ("len : "+len+", i : "+i);
-            $listTbody.append("<tr><td>" + saleInfo_all_arr[i] + "</td> <td> 0 </td> <td>" + saleInfo_all_arr[i+1] + "</td></tr>");
+        	//console.log ("len : "+len+", i : "+i);
+            $listTbody.append("<tr> <td width='5%'>"+tbNum+"</td>"+
+                              "<td width='40%'>" + saleInfo_all_arr[i] + "</td>"+
+            		          "<td width='10%'> <input type='text' style ='width:30px; text-align:center;' numberonly = 'true' value = 1> </td>"+
+            		          "<td width='30%'>" + saleInfo_all_arr[i+1] + "</td>"+
+            	              "<td width='20%'><input type = 'checkbox' name ='child_check' onclick='doOpenCheck(this);' style='width:20px; height:20px'></td></tr>");            		         
+           
             i = i+2;
+            tbNum++;
+            
+            //sum 계산
+            
         }
-        $listTbody.append("<tr><td> 총 합 </td> <td colspan ='2'> 1 </td></tr>");
+        $listTbody.append("<tr><td colspan ='2'> 총 합 </td> <td colspan ='3'> 1 </td></tr>");
     });
     
 }
 
+//체크박스 1개만 사용가능하도록 설정하는 함수
+function doOpenCheck(chk){
+    var obj = document.getElementsByName("child_check");
+    for(var i=0; i<obj.length; i++){
+        if(obj[i] != chk){
+            obj[i].checked = false;
+        }
+    }
+}
+
+/******* 체크박스 값 출력 **********/
+function selectCkbox(){
+
+    var checkbox = $("input[name=child_check]:checked");
+    
+    // 체크된 체크박스 값을 삭제한다.
+    checkbox.each(function() {
+    	
+        // checkbox.parent() : checkbox의 부모는 <td>이다.
+        // checkbox.parent().parent() : <td>의 부모이므로 <tr>이다.
+        var tr = checkbox.parent().parent().eq();
+        var td = tr.children();        
+        var delNum = Number(td.eq(0).text());
+                
+        delNum = 2*delNum-1;
+        
+        saleInfo_all_arr.splice(delNum,1);        
+        saleInfo_all_arr.splice(delNum-1,1);
+        
+        //삭제 후 조회
+    	$(document).ready(function() {
+        	
+            var $listTbody = $(".saleTable tbody");        
+            $listTbody.empty(); //초기화
+            
+            var len = saleInfo_all_arr.length;       
+            var i = 0;
+            var tbNum = 1;
+            while(i<len){
+            	console.log ("len : "+len+", i : "+i);
+                $listTbody.append("<tr> <td width='5%'>"+tbNum+"</td>"+
+                                  "<td width='40%'>" + saleInfo_all_arr[i] + "</td>"+
+                		          "<td width='10%'> <input type='text' style ='width:30px; text-align:center;' numberonly = 'true' value = 1> </td>"+
+                		          "<td width='30%'>" + saleInfo_all_arr[i+1] + "</td>"+
+                		          "<td width='20%'><input type = 'checkbox' name ='child_check' style='width:20px; height:20px'></td></tr>");
+                i = i+2;
+                tbNum++;
+                
+                //sum 계산
+                
+            }
+            $listTbody.append("<tr><td colspan ='2'> 총 합 </td> <td colspan ='3'> 1 </td></tr>");
+        });
+     });
+    
+    
+	
+}
+	
+//조회버튼
  function fnNullCk(){
 	 var ck = retrieve_data.goods_b_cd.value;	
 	 var result = "";
@@ -63,7 +133,8 @@ function exec_DataAdd(result){
 		        success: function(data){
 		        	//조회 성공시 exec_DataAdd 실행
 		        	exec_DataAdd(data);
-		            console.log($.trim(data));		           
+		        	retrieve_data.goods_b_cd.value = "";
+		            //console.log($.trim(data));		           
 		        },
 		        error: function(){
 		            alert("err"); 
@@ -97,18 +168,21 @@ function exec_DataAdd(result){
 					  <div>
 					    <!-- name은 VO에서 구분자 //id는 html내의 구분자  -->
 					      상품 바코드 : <input name="goods_b_cd" type="text" size="10"id="goods_b_cd">					
-						<button type="button" onclick="fnNullCk()">조회</button>						
+						<button type="button" onclick="fnNullCk()">조회</button>		
+						<button type="button" onclick="selectCkbox()" class="btn btn-outline btn-primary" id="selectBtn">삭제</button>				
 				      </div>
 					</form>
 				</div>
 				<p>
 				    
-				<table border = "1" width="50%" cellspacing="0" style="text-align: center;" class="saleTable">
+				<table border = "1" width="70%" cellspacing="0" style="text-align: center;" class="saleTable" id = "saleTable">
 					<thead >
 						<tr>
+						    <th>순번</th>  
 							<th>상품명</th>
 							<th>수량</th>							
 							<th>가격</th>
+							<th>선택</th>
 						</tr>
 					</thead>
 
