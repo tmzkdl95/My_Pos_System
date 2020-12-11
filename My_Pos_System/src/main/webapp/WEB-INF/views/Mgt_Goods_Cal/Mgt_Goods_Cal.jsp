@@ -23,22 +23,23 @@ function bCdFocus(){
 	document.getElementById("goods_b_cd").focus();
 }
 
-function exec_DataAdd(result){
-	
+/***************************************************
+ * 테이블 계산 및 조회 함수
+ ****************************************************/
+
+//테이블 생성 함수
+function exec_DataAdd(result){	
 	//result가 null 아닐때만 실행
-	if(result){
-		
-		var sum = 0;
+	if(result){				
 		//1.result의 "[]",공백 제거 및 "=" -> "," 치환 작업  
 	    var saleInfo = result.replace("[","").replace("]","").replace("goods_nm=","").replace("goods_pri=","").replace(/ /g,"").replace(/=/g,",");
 	    //2."," 기준으로 배열 생성
 	    var saleInfo_arr = saleInfo.split(",");   
-	    //3.saleInfo_all_arr에 조회해오는 값 계속 저장 : 홀수 = goods_nm / 짝수 = goods_pri
-	    
-		//[nm,value,goods_pri,value] => 1,3만 push
+	    //3.saleInfo_all_arr에 조회해오는 값 계속 저장	    
+		//[nm,value,goods_pri,qty,pri*qty]  
 	    saleInfo_all_arr.push(saleInfo_arr[0],saleInfo_arr[1],1,saleInfo_arr[1]);   
-	}
-    
+	}    
+	
     //4.Table 출력 jQuery 
     $(document).ready(function() {
     	
@@ -66,65 +67,31 @@ function exec_DataAdd(result){
         $listTbody.append("<tr><td colspan ='5'> 총 합 </td> <td colspan ='2'> "+allSum+" </td></tr>");
     });
     
+    //5.조회 후 focus 바코드입력칸으로
+    bCdFocus();
 }
 
 
-//수량 변경 및 sum 계산
-function goodsQtyChange_event(idx,val){
+//수량 변경
+function goodsQtyChange_event(idx,val){	
 	
 	if(!val){		
 		alert("수량을 입력하세요");
 		return false;
 	}
-	//값 변경시 sum 계산 로직 추가		
-	var tbTbody = document.getElementById("saleTableTbody");
-	var sum = 0;
-	var idxQty = arrLen*idx-2; //수량 변수
+	
 	var len = saleInfo_all_arr.length/arrLen;
-	var pri = 0;
-	var qty = 0;
-	var pXq = 0;
+	
 	//2. saleInfo_all_arr 변경
+	var idxQty = arrLen*idx-2; //saleInfo_all_arr[idxQty] = goods_pri(상품수량)
+	
 	saleInfo_all_arr[idxQty] = val;
 	
-	//3. 값 계산
-	for(var i=1; i<=len; i++){
-		pri = Number(saleInfo_all_arr[(arrLen*i)-3]); //가격
-		qty = saleInfo_all_arr[(arrLen*i)-2]; //수량
-		pXq = pri * qty //행 계산
-		
-		saleInfo_all_arr[(arrLen*i)-1] = pXq; //행 계산
-		sum += pXq; //총합 
-	}
-	allSum = sum; //전역변수에 삽입
-	alert(sum);
-	console.log(saleInfo_all_arr.length);
-	
-	//3. td 재출력
-	exec_DataAdd();
-	
-	
-	console.log("saleInfo_all_arr = "+saleInfo_all_arr);
-
-	
-	
-}
-//체크박스 1개만 사용가능하도록 설정하는 함수
-function doOpenCheck(chk){
-	
-    var obj = document.getElementsByName("child_check");
-    for(var i=0; i<obj.length; i++){
-        if(obj[i] != chk){
-            obj[i].checked = false;
-        }else{
-        	obj[i].checked = true;
-        }
-    }
-    
+	calculateSum();
 }
 
-/******* 체크박스 값 출력 **********/
-function selectCkbox(){
+//선택값 삭제 함수
+function selectCkboxDel(){
 
     var checkbox = $("input[name=child_check]:checked");
     var sum = 0;
@@ -137,22 +104,55 @@ function selectCkbox(){
         var td = tr.children();        
         var delNum = Number(td.eq(0).text()); // 순번
         
-  
-        delNum = arrLen*delNum-3;  //1,4,7...
-        
-        saleInfo_all_arr.splice(delNum,1);        
-        saleInfo_all_arr.splice(delNum-1,1);
-        saleInfo_all_arr.splice(delNum-2,1);
-        saleInfo_all_arr.splice(delNum-3,1);
-        
-        //삭제 후 조회
-        exec_DataAdd();
+        delNum = arrLen*delNum-4;  //1,4,7...
+       
+        saleInfo_all_arr.splice(delNum,4);  //0부터 4개 삭제
+       
+        //계산 > 조회
+        calculateSum();
        
      });
-    
-    
 	
 }
+
+//계산 함수
+function calculateSum(){
+	var sum = 0;   //합
+	var pri = 0;   //가격
+	var qty = 0;   //수량
+	var pXq = 0;   //가격x수량
+	var len = saleInfo_all_arr.length/arrLen; //배열 길이
+	allSum = 0;  //전역변수 초기화
+	
+	//1. 값 계산
+	for(var i=1; i<=len; i++){
+		pri = Number(saleInfo_all_arr[(arrLen*i)-3]); //가격
+		qty = saleInfo_all_arr[(arrLen*i)-2]; //수량
+		pXq = pri * qty //행 계산
+		
+		saleInfo_all_arr[(arrLen*i)-1] = pXq; //행 계산
+		sum += pXq; //총합 
+	}
+	
+	allSum = sum; //전역변수에 삽입
+	
+	//2.계산 후 테이블 재출력
+	exec_DataAdd();
+}
+//체크박스 1개만 사용가능하도록 설정하는 함수
+function doOpenCheck(chk){
+	
+    var obj = document.getElementsByName("child_check");
+    for(var i=0; i<obj.length; i++){
+        if(obj[i] != chk){
+            obj[i].checked = false;
+        }else{
+        	obj[i].checked = true;
+        }
+    }
+}
+
+
 	
 //조회버튼
  function fnNullCk(){
@@ -174,6 +174,7 @@ function selectCkbox(){
 		        	//조회 성공시 exec_DataAdd 실행
 		        	exec_DataAdd(data);
 		        	retrieve_data.goods_b_cd.value = "";
+		        	calculateSum();
 		        	bCdFocus();
 		            //console.log($.trim(data));		           
 		        },
@@ -212,7 +213,7 @@ function selectCkbox(){
 						<!-- <button type="button" onclick="fnNullCk()">조회</button>  -->
 				      </div>
 				      <div class="delBtn" align="left">
-				        <button type="button" onclick="selectCkbox()" class="btn btn-outline btn-primary" id="selectBtn">삭제</button>
+				        <button type="button" onclick="selectCkboxDel()" class="btn btn-outline btn-primary" id="selectBtn">삭제</button>
 				      </div>
 					</form>
 				</div>
