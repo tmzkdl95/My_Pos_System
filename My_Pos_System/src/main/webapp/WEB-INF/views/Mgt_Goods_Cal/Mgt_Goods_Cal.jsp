@@ -23,15 +23,30 @@ function pginit(){
 }
 //바코드 리더기 찍히면 수행하는 함수
 window.onload = function(){ 
+	
 	document.getElementById("goods_b_cd").onkeydown = function(event){ 
 		// 바코드리더기에서 바코드Read 후 Tab키 눌러짐 Tab keyCode = 9	
 		if(event.keyCode == 9){ 
 			fnNullCk();
+			bCdFocus();
 		} 
 	} 
-
 }
-
+//화면에서 Tab키 수행 막는 함수
+window.addEventListener("keydown", function(e){
+	if(event.defaultPrevented){
+		return;
+	}
+	var handled = false;
+	
+	if(event.keyCode == 9){
+		handled = true;
+	} 
+	if(handled){
+		event.preventDefault();
+		bCdFocus();
+	}
+},true);
 
 
 
