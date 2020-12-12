@@ -5,8 +5,11 @@
 <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 
+ 
 <body onload = "pginit()">
 <script src="js/common/saleMap.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
 <script language="javascript">
 
 var saleInfo_all_arr = Array(); //상품명-상품가격-수량-상품x수량
@@ -18,6 +21,20 @@ function pginit(){
 	bCdFocus();
 	
 }
+//바코드 리더기 찍히면 수행하는 함수
+window.onload = function(){ 
+	document.getElementById("goods_b_cd").onkeydown = function(event){ 
+		// 바코드리더기에서 바코드Read 후 Tab키 눌러짐 Tab keyCode = 9	
+		if(event.keyCode == 9){ 
+			fnNullCk();
+		} 
+	} 
+
+}
+
+
+
+
 //페이지 로드시 바코드 조회로 포커스 맞추기
 function bCdFocus(){
 	document.getElementById("goods_b_cd").focus();
@@ -121,7 +138,7 @@ function calculateSum(){
 	var pri = 0;   //가격
 	var qty = 0;   //수량
 	var pXq = 0;   //가격x수량
-	var len = saleInfo_all_arr.length/arrLen; //배열 길이
+	var len = saleInfo_all_arr.length/arrLen; 
 	allSum = 0;  //전역변수 초기화
 	
 	//1. 값 계산
@@ -179,16 +196,19 @@ function doOpenCheck(chk){
 		            //console.log($.trim(data));		           
 		        },
 		        error: function(){
-		            alert("err"); 
+		            alert("등록되지 않은 바코드입니다.");
+		            retrieve_data.goods_b_cd.value = "";
+		            bCdFocus();
 		        }
 		  	});
 
 	 }
  }
 
- 
+	
  
 </script>
+
 <div class="container-fluid">
 
 	<!-- Breadcrumbs-->
@@ -209,7 +229,7 @@ function doOpenCheck(chk){
 					<form action='<c:url value="/Mgt_Goods_Cal_retrieve" />' method="post" id="retrieve_data" accept-charset="UTF-8">
 					  <div>
 					    <!-- name은 VO에서 구분자 //id는 html내의 구분자  -->
-					      상품 바코드 : <input name="goods_b_cd" onchange ="fnNullCk()" type="text" size="10"id="goods_b_cd">					
+					      상품 바코드 : <input name="goods_b_cd" onchange ="fnNullCk()" type="text" size="10"id="goods_b_cd">
 						<!-- <button type="button" onclick="fnNullCk()">조회</button>  -->
 				      </div>
 				      <div class="delBtn" align="left">
