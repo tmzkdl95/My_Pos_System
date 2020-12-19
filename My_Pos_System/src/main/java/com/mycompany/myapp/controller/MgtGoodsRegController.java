@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.mycompany.service.MgtGoodsRegService.MgtGoodsRegService;
+import com.mycompany.service.cmCdService.CmCdService;
 import com.mycompany.vo.MgtGoodsRegVO;
+import com.mycompany.vo.CmCd_VO;
 
 
 @Controller
@@ -20,23 +22,31 @@ public class MgtGoodsRegController {
 	@Inject
 	private MgtGoodsRegService mgtGoodsRegService;
 	
+	@Inject
+	private CmCdService cmCdService; 
+	
 	@RequestMapping(value = "/Mgt_Goods_Reg", method = RequestMethod.GET)
-	//DB √‚∑¬ µø¿€ ∏ﬁº≠µÂ
+	//Ï°∞Ìöå
 	public String MgtGoodsRegAll_retrieve(Model model){
-		System.out.println("Controller Ω√¿€");		
+				
 		List<MgtGoodsRegVO> ret_mgtGoodsReg = mgtGoodsRegService.retrieve_mgtGoodsRegAll();
-		System.out.println("ret_mgtGoodsReg : "+ret_mgtGoodsReg);
+		List<CmCd_VO> ret_CmCd = cmCdService.retrieve_CmCd_SelectBox();
+		
 		model.addAttribute("Mgt_Goods_Reg",ret_mgtGoodsReg);
+		model.addAttribute("ret_CmCd",ret_CmCd);
+		//System.out.println("@@@@@@@@@@@@@@ret_CmCd = "+ret_CmCd);
 		
 		return "Mgt_Goods_Reg/Mgt_Goods_Reg";
 	}
 	
 	
+	//ÏÉÅÌíà Îì±Î°ù
 	@RequestMapping(value = "/Mgt_Goods_Reg/insert_data", method = RequestMethod.POST)
-	public String insert_data(@ModelAttribute MgtGoodsRegVO MgtGoodsRegVO){
-		
-		System.out.print(MgtGoodsRegVO.toString()); //viewø°º≠ ¡¶¥Î∑Œ ∞™ ¥¯¡Æ¡÷¥¬¡ˆ »Æ¿Œ«œ±‚	
+	public String insert_data(@ModelAttribute MgtGoodsRegVO MgtGoodsRegVO,@ModelAttribute CmCd_VO CmCd_VO){
+
 		mgtGoodsRegService.insert_data(MgtGoodsRegVO);
+		cmCdService.update_LastCmCd(CmCd_VO);
+		
 		return "redirect:/Mgt_Goods_Reg";
 	}
 	

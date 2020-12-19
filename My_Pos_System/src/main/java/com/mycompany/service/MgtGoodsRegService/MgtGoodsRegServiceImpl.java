@@ -18,7 +18,7 @@ public class MgtGoodsRegServiceImpl implements MgtGoodsRegService{
 	
 	@Override
 	public List<MgtGoodsRegVO> retrieve_mgtGoodsRegAll() {
-		System.out.println("Service Ω√¿€");
+		
 		List<MgtGoodsRegVO> retrieve_RegInf = mgtGoodsRegDao.getList_MgtGoodsReg();
 		return retrieve_RegInf;
 	}

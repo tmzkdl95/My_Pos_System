@@ -19,8 +19,7 @@ public class MgtGoodsRegDaoImpl implements MgtGoodsRegDAO{
 	
 	private static final String NameSpace = "com.mycompany.mapper.mapper_XML";
 	@Override
-	public List<MgtGoodsRegVO> getList_MgtGoodsReg() {
-		System.out.println("DAO Ω√¿€");
+	public List<MgtGoodsRegVO> getList_MgtGoodsReg() {		
 		// TODO Auto-generated method stub
 		return sqlsession.selectList(NameSpace+".select_MgtGoodsReg");
 	}

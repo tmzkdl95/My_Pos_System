@@ -6,10 +6,10 @@ import com.mycompany.vo.MgtGoodsRegVO;
 
 public interface MgtGoodsRegDAO {
 	
-	//상품조회 내용 출력
+	//retrieve all
 	public List<MgtGoodsRegVO> getList_MgtGoodsReg();
 	
-	//상품 등록
+	//insert goods_inf
 	public void insert_MgtGoodsReg(MgtGoodsRegVO MgtGoodsRegVO);
 
 }
