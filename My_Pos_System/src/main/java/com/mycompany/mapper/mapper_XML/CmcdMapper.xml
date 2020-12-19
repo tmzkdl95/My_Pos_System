@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace = "com.mycompany.mapper.mapper_XML">
+	<select id = "select_retrieveCmCdSelectBox" resultType="com.mycompany.vo.CmCd_VO">
+		SELECT *
+		FROM t_cm_cd
+		WHERE CM_TYP = #{cm_typ};
+	</select>
+	
+	<update id = "update_lastCmCd">
+		UPDATE t_cm_cd
+		   SET last_cm_cd = #{last_cm_cd}
+		 WHERE cm_cd  = #{cm_cd}
+		   AND cm_typ = #{cm_typ}
+	</update>
+	
+</mapper>
