@@ -64,7 +64,8 @@ function exec_DataAdd(result){
 	//result가 null 아닐때만 실행
 	if(result){				
 		//1.result의 "[]",공백 제거 및 "=" -> "," 치환 작업  
-	    var saleInfo = result.replace("[","").replace("]","").replace("goods_nm=","").replace("goods_pri=","").replace(/ /g,"").replace(/=/g,",");
+	    //var saleInfo = result.replace("[","").replace("]","").replace("goods_nm=","").replace("goods_pri=","").replace(/ /g,"").replace(/=/g,",");
+		var saleInfo = result.replace("[","").replace("]","").replace("goods_nm=","").replace("goods_pri=","").replace(/=/g,",");
 	    //2."," 기준으로 배열 생성
 	    var saleInfo_arr = saleInfo.split(",");   
 	    //3.saleInfo_all_arr에 조회해오는 값 계속 저장	    
@@ -219,6 +220,13 @@ function doOpenCheck(chk){
 
 	 }
  }
+ 
+ //결재 버튼
+ function fnPayment(){
+	 alert("insert");
+	 document.getElementById('paymentBtn').submit();
+	 
+ }
 
 	
  
@@ -253,8 +261,8 @@ function doOpenCheck(chk){
 					</form>
 				</div>
 				<p>
-				    
-				<table border = "1" width="70%" cellspacing="0" style="text-align: center;" class="saleTable" id = "saleTable">
+				<form action='<c:url value="/Mgt_Goods_Cal/insert" />' method="post" id="insert_data" accept-charset="UTF-8">    
+				<table border = "1" width="90%" cellspacing="0" style="text-align: center;" class="saleTable" id = "saleTable">
 					<thead >
 						<tr>
 						    <th>순번</th>  
@@ -269,9 +277,14 @@ function doOpenCheck(chk){
 
 					<tbody id = "saleTableTbody">
 							
-					</tbody>
+					</tbody>					
 				</table>
-		
+				
+				<div align = "left">
+				        <button type="button" onclick="fnPayment()" class="btn btn-outline btn-primary" id="paymentBtn">결재</button>
+				</div>
+				</form>
+				
 				
 			</div>
 			<!--table-responsive  -->
