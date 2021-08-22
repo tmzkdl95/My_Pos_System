@@ -6,7 +6,7 @@ public class MgtGoodsCalVO {
 	String goods_b_cd;
 	String goods_cd;
 	String goods_nm;
-	int goods_pri;
+	int goods_price;
 	int goods_qty;
 	String goods_reg_user_id;
 	Date goods_reg_tm;
@@ -29,11 +29,11 @@ public class MgtGoodsCalVO {
 	public void setGoods_nm(String goods_nm) {
 		this.goods_nm = goods_nm;
 	}
-	public int getGoods_pri() {
-		return goods_pri;
+	public int getGoods_price() {
+		return goods_price;
 	}
-	public void setGoods_pri(int goods_pri) {
-		this.goods_pri = goods_pri;
+	public void setGoods_price(int goods_price) {
+		this.goods_price = goods_price;
 	}
 	public int getGoods_qty() {
 		return goods_qty;
@@ -57,7 +57,7 @@ public class MgtGoodsCalVO {
 	@Override
 	public String toString() {
 		return "MgtGoodsCalVO [goods_b_cd=" + goods_b_cd + ", goods_cd=" + goods_cd + ", goods_nm=" + goods_nm
-				+ ", goods_pri=" + goods_pri + ", goods_qty=" + goods_qty + ", goods_reg_user_id=" + goods_reg_user_id
+				+ ", goods_price=" + goods_price + ", goods_qty=" + goods_qty + ", goods_reg_user_id=" + goods_reg_user_id
 				+ ", goods_reg_tm=" + goods_reg_tm + "]";
 	}
 

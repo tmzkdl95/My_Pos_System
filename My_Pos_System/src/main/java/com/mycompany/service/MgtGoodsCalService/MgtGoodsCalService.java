@@ -11,7 +11,7 @@ public interface MgtGoodsCalService {
 	//
 	public List<String> retrieve_mgtGoodsRegAll_str(MgtGoodsCalVO MgtGoodsCalVO);
 	
-	// insert data to testPage
-	public void insert_data(MgtGoodsCalVO MgtGoodsCalVO);
+	// 결제 정보 인서트
+	public void insert_calculationInfo(String[] calculationInfo);
 	
 }
