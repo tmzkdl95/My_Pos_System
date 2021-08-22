@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.mycompany.vo.MgtGoodsCalVO;
+import com.mycompany.vo.MgtGoodsCal_insert_VO;
 
 
 @Repository
@@ -37,12 +38,15 @@ public class MgtGoodsCalDaoImpl implements MgtGoodsCalDAO {
 	}
 	
 
-/*
+
 	@Override
-	public void insert_MgtGoodsSale(MgtGoodsCalVO MgtGoodsCalVO) {
-		//sqlsession.insert(NameSpace+".insert_MgtGoodsReg",MgtGoodsCalVO);
+	public void insert_calculationInfo(MgtGoodsCal_insert_VO calculationInfo) {
+		
+		//mgcVo.set
+		//calculationInfo("이름","가격","수량","")
+		sqlsession.insert(NameSpace+".insert_calculationInfo",calculationInfo);
 		
 	}
-*/
+
 	
 }

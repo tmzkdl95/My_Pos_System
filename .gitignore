@@ -1,0 +1,6 @@
+/My_Pos_System/
+*.log
+*.bak
+*.svg
+*,less
+*.scss

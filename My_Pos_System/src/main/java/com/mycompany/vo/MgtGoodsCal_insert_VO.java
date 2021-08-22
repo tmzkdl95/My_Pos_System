@@ -3,18 +3,34 @@ package com.mycompany.vo;
 import java.util.Date;
 public class MgtGoodsCal_insert_VO {
 
+	String ord_no;
+	String goods_row;
 	String goods_b_cd;
 	String goods_cd;
 	String goods_nm;
 	String goods_sale_req;
-	int goods_pri;
+	int goods_price;
 	int goods_qty;
 	int goods_sale_qty;
-	Date sale_date;
+	int goods_total_price;
+	String sale_date;
 	String sale_status;
 	String goods_reg_user_id;
 	Date goods_reg_tm;
 	
+	public String getOrd_no() {
+		return ord_no;
+	}
+	public void setOrd_no(String ord_no) {
+		this.ord_no = ord_no;
+	}
+	
+	public String goods_row() {
+		return goods_row;
+	}
+	public void goods_row(String goods_row) {
+		this.goods_row = goods_row;
+	}
 	
 	public String getGoods_b_cd() {
 		return goods_b_cd;
@@ -40,11 +56,11 @@ public class MgtGoodsCal_insert_VO {
 	public void setGoods_sale_req(String goods_sale_req) {
 		this.goods_sale_req = goods_sale_req;
 	}
-	public int getGoods_pri() {
-		return goods_pri;
+	public int getGoods_price() {
+		return goods_price;
 	}
-	public void setGoods_pri(int goods_pri) {
-		this.goods_pri = goods_pri;
+	public void setGoods_price(int goods_price) {
+		this.goods_price = goods_price;
 	}
 	public int getGoods_qty() {
 		return goods_qty;
@@ -58,10 +74,16 @@ public class MgtGoodsCal_insert_VO {
 	public void setGoods_sale_qty(int goods_sale_qty) {
 		this.goods_sale_qty = goods_sale_qty;
 	}
-	public Date getSale_date() {
+	public String getSale_date() {
 		return sale_date;
 	}
-	public void setSale_date(Date sale_date) {
+	public int getGoods_total_price() {
+		return goods_total_price;
+	}
+	public void setGoods_total_price(int goods_total_price) {
+		this.goods_total_price = goods_total_price;
+	}
+	public void setSale_date(String sale_date) {
 		this.sale_date = sale_date;
 	}
 	public String getSale_status() {
@@ -85,10 +107,11 @@ public class MgtGoodsCal_insert_VO {
 	
 	@Override
 	public String toString() {
-		return "MgtGoodsCal_insert_VO [goods_b_cd=" + goods_b_cd + ", goods_cd=" + goods_cd + ", goods_nm=" + goods_nm
-				+ ", goods_sale_req=" + goods_sale_req + ", goods_pri=" + goods_pri + ", goods_qty=" + goods_qty
-				+ ", goods_sale_qty=" + goods_sale_qty + ", sale_date=" + sale_date + ", sale_status=" + sale_status
-				+ ", goods_reg_user_id=" + goods_reg_user_id + ", goods_reg_tm=" + goods_reg_tm + "]";
+		return "MgtGoodsCal_insert_VO [ord_no=" + ord_no + ", goods_row=" + goods_row + ", goods_b_cd=" + goods_b_cd + ", goods_cd=" + goods_cd
+				+ ", goods_nm=" + goods_nm + ", goods_sale_req=" + goods_sale_req + ", goods_price=" + goods_price
+				+ ", goods_qty=" + goods_qty + ", goods_sale_qty=" + goods_sale_qty + ", goods_total_price="
+				+ goods_total_price + ", sale_date=" + sale_date + ", sale_status=" + sale_status + ", goods_reg_user_id="
+				+ goods_reg_user_id + ", goods_reg_tm=" + goods_reg_tm + "]";
 	}
 	
 }

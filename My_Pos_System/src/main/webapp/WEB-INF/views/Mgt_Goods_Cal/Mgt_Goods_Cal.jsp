@@ -12,13 +12,15 @@
 </script>
 <script language="javascript">
 
-var saleInfo_all_arr = Array(); //상품명-상품가격-수량-상품x수량
-var arrLen = 4;
-var allSum = 0;
+var saleInfo_all_arr = Array(); //상품명-상품가격-수량-금액(상품x수량)
+var arrLen = 6;
+var allSum = 0;     //총 가격
 
 function pginit(){
 	
+	location.reload();
 	bCdFocus();
+	
 	
 }
 //바코드 리더기 찍히면 수행하는 함수
@@ -65,12 +67,13 @@ function exec_DataAdd(result){
 	if(result){				
 		//1.result의 "[]",공백 제거 및 "=" -> "," 치환 작업  
 	    //var saleInfo = result.replace("[","").replace("]","").replace("goods_nm=","").replace("goods_pri=","").replace(/ /g,"").replace(/=/g,",");
-		var saleInfo = result.replace("[","").replace("]","").replace("goods_nm=","").replace("goods_pri=","").replace(/=/g,",");
+		var saleInfo = result.replace("[","").replace("]","").replace("goods_b_cd=","").replace("goods_cd=","").replace("goods_nm=","").replace("goods_price=","").replace(/=/g,",");
 	    //2."," 기준으로 배열 생성
-	    var saleInfo_arr = saleInfo.split(",");   
+	    var saleInfo_arr = saleInfo.split(",");  
+	    
 	    //3.saleInfo_all_arr에 조회해오는 값 계속 저장	    
-		//[nm,value,goods_pri,qty,pri*qty]  
-	    saleInfo_all_arr.push(saleInfo_arr[0],saleInfo_arr[1],1,saleInfo_arr[1]);   
+		//[b_cd,cd,nm,value,goods_price,qty,pri*qty]  
+	    saleInfo_all_arr.push(saleInfo_arr[0],saleInfo_arr[1],saleInfo_arr[2], saleInfo_arr[3], 1, saleInfo_arr[3]);   
 	}    
 	
     //4.Table 출력 jQuery 
@@ -81,19 +84,19 @@ function exec_DataAdd(result){
         
         var len = saleInfo_all_arr.length;       
         var i = 0;
-        var qty = Number(saleInfo_all_arr[i+2]);
+        var qty = Number(saleInfo_all_arr[i+4]);
         var tbNum = 1;
         while(i<len){
         	//console.log ("len : "+len+", i : "+i);
-            $listTbody.append("<tr> <td width='5%'>"+tbNum+"</td>"+
-                              "<td width='25%'>" + saleInfo_all_arr[i]   +"</td>"+
-                              "<td width='15%'>" + saleInfo_all_arr[i+1] +"</td>"+
-            		          "<td width='10%'>" + saleInfo_all_arr[i+2] +"</td>"+
-            		          "<td width='15%'> <input type='number' align='right' name='"+tbNum+"' onblur='goodsQtyChange_event(this.name,this.value)' style='width:50px; text-align:center; value=1'></td>"+
-            		          "<td width='15%'>" + saleInfo_all_arr[i+3] +"</td>"+
+            $listTbody.append("<tr> <td width='5%' name = 'goods_row'>"+tbNum+"</td>"+
+                              "<td width='25%' name = 'goods_nm' >" + saleInfo_all_arr[i+2]   +"</td>"+
+                              "<td width='15%' name = 'goods_price'>" + saleInfo_all_arr[i+3] +"</td>"+
+            		          "<td width='10%' name = 'goods_sale_qty'>" + saleInfo_all_arr[i+4] +"</td>"+
+            		          "<td width='15%' > <input type='number' align='right' name='"+tbNum+"' onblur='goodsQtyChange_event(this.name,this.value)' style='width:50px; text-align:center; value=1'></td>"+
+            		          "<td width='15%' name = 'goods_total_price'>" + saleInfo_all_arr[i+5] +"</td>"+
             	              "<td width='15%'><input type = 'checkbox' name ='child_check' onclick='doOpenCheck(this);' style='width:20px; height:20px'></td></tr>");            		         
            
-            i = i+4;
+            i = i+6;
             tbNum++;   
             
         }
@@ -113,10 +116,10 @@ function goodsQtyChange_event(idx,val){
 		return false;
 	}
 	
-	var len = saleInfo_all_arr.length/arrLen;
+	//var len = saleInfo_all_arr.length/arrLen;
 	
 	//2. saleInfo_all_arr 변경
-	var idxQty = arrLen*idx-2; //saleInfo_all_arr[idxQty] = goods_pri(상품수량)
+	var idxQty = arrLen*idx-2; //saleInfo_all_arr[idxQty] = goods_qty(상품수량)
 	
 	saleInfo_all_arr[idxQty] = val;
 	
@@ -137,9 +140,9 @@ function selectCkboxDel(){
         var td = tr.children();        
         var delNum = Number(td.eq(0).text()); // 순번
         
-        delNum = arrLen*delNum-4;  //1,4,7...
+        delNum = arrLen*delNum-6;  //1,7,13...
        
-        saleInfo_all_arr.splice(delNum,4);  //0부터 4개 삭제
+        saleInfo_all_arr.splice(delNum,6);  //0부터 4개 삭제
        
         //계산 > 조회
         calculateSum();
@@ -221,11 +224,59 @@ function doOpenCheck(chk){
 	 }
  }
  
- //결재 버튼
- function fnPayment(){
-	 alert("insert");
-	 document.getElementById('paymentBtn').submit();
+ /*
+  * 결재 버튼 클릭시  전역변수 saleInfo_all_arr POST로 Controller에 전송
+  * Json 형태로 변경 후 전송
+  * 
+  * 주문번호 필요  
+ **/
+ function fnPayment(){	 
+	
+	 saleInfo_all_arr.push(0,0,0,0,0,allSum); //최종가격 전송
 	 
+	 $.ajax({
+		 url: "Mgt_Goods_Cal/insert",
+	     type: "POST",
+	     traditional:true,
+	     data:{
+	    	 saleInfo_all_arr:saleInfo_all_arr
+	     },
+	     success: function(data){
+	        	//조회 성공시 exec_DataAdd 실행	       
+	        	pginit();
+	            //console.log($.trim(data));		           
+	        },
+         error: function(request,status,error){
+	            alert("4 code : "+request.status+"\n message : "+request.responseText+"\n error : "+error);
+	            
+	            //retrieve_data.goods_b_cd.value = "";
+	            //bCdFocus();
+         }
+	     
+	 });
+	 /*
+	 $.ajax({
+	        url: "Mgt_Goods_Cal/insert",
+	        type: "POST",
+	        contentType:'application/json; charset=UTF-8',
+	        data: JSON.stringify(saleInfo_all_arr),
+	        dataType : 'json',
+	        success: function(data){
+	        	//조회 성공시 exec_DataAdd 실행	       
+	        	pginit();
+	            //console.log($.trim(data));		           
+	        },
+	        error: function(request,status,error){
+	            alert("3 code : "+request.status+"\n message : "+request.responseText+"\n error : "+error);
+	            
+	            //retrieve_data.goods_b_cd.value = "";
+	            //bCdFocus();
+	        }
+	  	});
+	 */
+	 
+	// document.getElementById('paymentBtn').submit();
+	
  }
 
 	
