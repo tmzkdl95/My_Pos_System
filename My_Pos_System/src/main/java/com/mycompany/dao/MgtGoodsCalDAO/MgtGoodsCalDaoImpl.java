@@ -42,7 +42,6 @@ public class MgtGoodsCalDaoImpl implements MgtGoodsCalDAO {
 	@Override
 	public void insert_calculationInfo(MgtGoodsCal_insert_VO calculationInfo) {
 		
-		System.out.println("MgtGoodsCalDaoImpl - calculationInfo = "+calculationInfo);
 		//mgcVo.set
 		//calculationInfo("이름","가격","수량","")
 		sqlsession.insert(NameSpace+".insert_calculationInfo",calculationInfo);

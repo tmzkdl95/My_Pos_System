@@ -65,7 +65,7 @@ public class MgtGoodsCalController {
 		return "returnAjax";
 	}
 	
-	//insert Json으로 전달받기
+	//insert List 파라미터로 전달받기
 	@ResponseBody
 	@RequestMapping(value = "/Mgt_Goods_Cal/insert", method = RequestMethod.POST)
 	//public String insert_data(@RequestBody String paramData,HttpServletRequest request){
